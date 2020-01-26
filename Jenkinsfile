@@ -51,31 +51,31 @@ pipeline {
           }
       }
 
-      post {
+   }
 
-        always {
-           ansiColor('xterm') {
-              script {
-                  echo 'Code Coverage'
-                  jacoco()
+         post {
+
+           always {
+              ansiColor('xterm') {
+                 script {
+                     echo 'Code Coverage'
+                     jacoco()
+                 }
               }
            }
-        }
-        success {
-           ansiColor('xterm') {
-               script {
-                   echo "\u001B[42;1m\u001b[33;1mThe pipeline was successful\u001B[0m"
+           success {
+              ansiColor('xterm') {
+                  script {
+                      echo "\u001B[42;1m\u001b[33;1mThe pipeline was successful\u001B[0m"
+                  }
+              }
+           }
+           failure {
+               ansiColor('xterm') {
+                   script {
+                       echo "\u001B[41;1m\u001b[33;1mThe pipeline failed\u001B[0m"
+                   }
                }
            }
         }
-        failure {
-            ansiColor('xterm') {
-                script {
-                    echo "\u001B[41;1m\u001b[33;1mThe pipeline failed\u001B[0m"
-                }
-            }
-        }
-     }
-
-   }
 }

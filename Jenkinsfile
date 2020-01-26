@@ -5,6 +5,7 @@ pipeline {
 
       stage('Build') {
          steps {
+          script {
             // Get some code from a GitHub repository
             git 'https://github.com/adaraz-demo/cicd-demo.git'
 
@@ -35,6 +36,7 @@ pipeline {
             println "<<< Running server unit tests complete"
 
             //printDuration(start, "unit-tests")
+          }
          }
       }
    }

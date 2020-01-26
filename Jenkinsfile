@@ -40,6 +40,20 @@ pipeline {
           }
          }
       }
+
+      stage('Sonar Qube') {
+         steps {
+          script {
+            ansiColor('xterm') {
+                println "<<< Run Sonar qube analysis task"
+                withSonarQubeEnv() {
+                  // Will pick the global server connection you have configured
+                  sh 'mvn sonar:sonar'
+                }
+            }
+          }
+         }
+      }
    }
 
    post {

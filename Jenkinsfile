@@ -24,7 +24,11 @@ pipeline {
                 println "<<< Run Sonar qube analysis task"
                 withSonarQubeEnv() {
                   // Will pick the global server connection you have configured
-                  sh 'mvn sonar:sonar'
+                  sh 'mvn sonar:sonar \
+                            -Dsonar.projectKey=CI \
+                            -Dsonar.host.url=http://5819053a.ngrok.io \
+                            -Dsonar.login=7d0a24d88a73577d16d138cc00668e2fb83137ea
+                  '
                 }
             }
           }

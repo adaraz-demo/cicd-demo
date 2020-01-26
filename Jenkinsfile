@@ -49,8 +49,8 @@ pipeline {
                     archiveArtifacts allowEmptyArchive: true, artifacts: "**/jacoco/**", caseSensitive: false, defaultExcludes: false
                     stash allowEmpty: true, includes: "**/jacoco/**", name: 'unit-test-reports'
                 }
+                println "<<< Running server unit tests complete"
             }
-            println "<<< Running server unit tests complete"
           }
          }
       }

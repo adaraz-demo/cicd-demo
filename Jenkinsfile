@@ -3,27 +3,32 @@ pipeline {
 
    stages {
 
-      stage('Build') {
-         steps {
-          script {
+      stage('Checkout') {
+          steps {
             // Get some code from a GitHub repository
             git 'https://github.com/adaraz-demo/cicd-demo.git'
+          }
+      }
 
+      stage('Build') {
+          steps {
             // Run Maven on a Unix agent.
-            sh "mvn clean package"
+            sh "mvn clean build"
+          }
+      }
 
-            // To run Maven on a Windows agent, use
-            // bat "mvn -Dmaven.test.failure.ignore=true clean package"
-
-            println ">>> Running server unit tests"
-
+      stage('Test') {
+         steps {
+          script {
             ansiColor('xterm') {
                 println "<<< Running server unit tests complete"
 
                 try {
                     sh 'mvn test'
                 } catch(e) {
+
                     println "Cancelling build because something failed while running server unit tests " + e
+
                     //cancelCurrentBuild(e, 'server:test')
                 } finally {
                     // sh "cd target && mv reports/tests/test reports/tests/unit-tests"
@@ -35,9 +40,15 @@ pipeline {
 
             println "<<< Running server unit tests complete"
 
-            //printDuration(start, "unit-tests")
           }
          }
+      }
+
+      stage('JaCoCo') {
+          steps {
+              echo 'Code Coverage'
+              jacoco()
+          }
       }
    }
 }

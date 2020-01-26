@@ -27,6 +27,7 @@ pipeline {
                     sh 'mvn test'
                 } catch(e) {
                     println "Cancelling build because something failed while running server unit tests " + e
+                    throw e;
                     //cancelCurrentBuild(e, 'server:test')
                 } finally {
                     // sh "cd target && mv reports/tests/test reports/tests/unit-tests"

@@ -2,6 +2,7 @@ pipeline {
    agent any
 
    stages {
+
       stage('Build') {
          steps {
             // Get some code from a GitHub repository
@@ -12,7 +13,6 @@ pipeline {
 
             // To run Maven on a Windows agent, use
             // bat "mvn -Dmaven.test.failure.ignore=true clean package"
-
 
             println ">>> Running server unit tests"
 
@@ -31,8 +31,7 @@ pipeline {
                     stash allowEmpty: true, includes: "**/jacoco/**", name: 'unit-test-reports'
                 }
             }
-
-         }
-      }
+     }
+   }
    }
 }

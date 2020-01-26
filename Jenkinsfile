@@ -12,15 +12,35 @@ pipeline {
 
             // To run Maven on a Windows agent, use
             // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+
+
+            println ">>> Running server unit tests"
+
+            ansiColor('xterm') {
+                try {
+                    sh 'mvn test'
+                }
+                catch(e) {
+                    println "Cancelling build because something failed while running server unit tests " + e
+                    // cancelCurrentBuild(e, 'service:test')
+                }
+                finally {
+                    sh "cd cicd-demo/target && mv reports/tests/test reports/tests/unit-tests"
+                    junit allowEmptyResults: true, keepLongStdio: true, testResults: '**/test-results/**/*.xml'
+                    archiveArtifacts allowEmptyArchive: true, artifacts: "**/jacoco/**", caseSensitive: false, defaultExcludes: false
+                    stash allowEmpty: true, includes: "**/jacoco/**", name: 'unit-test-reports'
+                }
+            }
+
          }
 
          post {
             // If Maven was able to run the tests, even if some of the test
             // failed, record the test results and archive the jar file.
-            success {
-               junit '**/target/surefire-reports/TEST-*.xml'
-               archiveArtifacts 'target/*.jar'
-            }
+         //   success {
+         //      junit '**/target/surefire-reports/TEST-*.xml'
+         //     archiveArtifacts 'target/*.jar'
+         //   }
          }
       }
    }

@@ -46,7 +46,7 @@ pipeline {
                     //cancelCurrentBuild(e, 'server:test')
                 } finally {
                     // sh "cd target && mv reports/tests/test reports/tests/unit-tests"
-                    junit allowEmptyResults: true, keepLongStdio: true, testResults: '***/target/surefire-reports/TEST-*.xml'
+                    junit allowEmptyResults: true, keepLongStdio: true, testResults: '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts allowEmptyArchive: true, artifacts: "**/jacoco/**", caseSensitive: false, defaultExcludes: false
                     stash allowEmpty: true, includes: "**/jacoco/**", name: 'unit-test-reports'
                 }

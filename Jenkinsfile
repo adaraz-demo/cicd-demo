@@ -35,18 +35,6 @@ pipeline {
             println "<<< Running server unit tests complete"
 
             //printDuration(start, "unit-tests")
-
-
-
-
-
-
-
-
-
-
-
-            ========================================
          }
       }
    }

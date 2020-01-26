@@ -21,14 +21,12 @@ pipeline {
          steps {
           script {
             ansiColor('xterm') {
-                println "<<< Running server unit tests complete"
 
+                println "<<< Running server unit tests complete"
                 try {
                     sh 'mvn test'
                 } catch(e) {
-
                     println "Cancelling build because something failed while running server unit tests " + e
-
                     //cancelCurrentBuild(e, 'server:test')
                 } finally {
                     // sh "cd target && mv reports/tests/test reports/tests/unit-tests"
@@ -37,45 +35,35 @@ pipeline {
                     stash allowEmpty: true, includes: "**/jacoco/**", name: 'unit-test-reports'
                 }
             }
-
             println "<<< Running server unit tests complete"
-
           }
          }
       }
-
-      stage('JaCoCo') {
-          steps {
-              echo 'Code Coverage'
-              jacoco()
-          }
-      }
-
    }
 
-         post {
+   post {
 
-           always {
-              ansiColor('xterm') {
-                 script {
-                     echo 'Code Coverage'
-                     jacoco()
-                 }
-              }
-           }
-           success {
-              ansiColor('xterm') {
-                  script {
-                      echo "\u001B[42;1m\u001b[33;1mThe pipeline was successful\u001B[0m"
-                  }
-              }
-           }
-           failure {
-               ansiColor('xterm') {
-                   script {
-                       echo "\u001B[41;1m\u001b[33;1mThe pipeline failed\u001B[0m"
-                   }
-               }
+     always {
+        ansiColor('xterm') {
+           script {
+               echo 'Code Coverage'
+               jacoco()
            }
         }
+     }
+     success {
+        ansiColor('xterm') {
+            script {
+                echo "\u001B[42;1m\u001b[33;1mThe pipeline was successful\u001B[0m"
+            }
+        }
+     }
+     failure {
+         ansiColor('xterm') {
+             script {
+                 echo "\u001B[41;1m\u001b[33;1mThe pipeline failed\u001B[0m"
+             }
+         }
+     }
+  }
 }

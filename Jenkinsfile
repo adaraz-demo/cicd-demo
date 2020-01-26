@@ -17,6 +17,20 @@ pipeline {
           }
       }
 
+      stage('Sonar Qube') {
+         steps {
+          script {
+            ansiColor('xterm') {
+                println "<<< Run Sonar qube analysis task"
+                withSonarQubeEnv() {
+                  // Will pick the global server connection you have configured
+                  sh 'mvn sonar:sonar'
+                }
+            }
+          }
+         }
+      }
+
       stage('Test') {
          steps {
           script {
@@ -37,20 +51,6 @@ pipeline {
                 }
             }
             println "<<< Running server unit tests complete"
-          }
-         }
-      }
-
-      stage('Sonar Qube') {
-         steps {
-          script {
-            ansiColor('xterm') {
-                println "<<< Run Sonar qube analysis task"
-                withSonarQubeEnv() {
-                  // Will pick the global server connection you have configured
-                  sh 'mvn sonar:sonar'
-                }
-            }
           }
          }
       }

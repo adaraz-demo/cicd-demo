@@ -1,0 +1,35 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: cicd-demo-service
+spec:
+  selector:
+    app: cicd-demo-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 30000
+  type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicd-demo-service
+spec:
+  selector:
+    matchLabels:
+      app: cicd-demo-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: cicd-demo-service
+    spec:
+      containers:
+        - name: cicd-demo-service
+          image: cicd-demo:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080

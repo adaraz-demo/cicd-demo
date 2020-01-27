@@ -55,6 +55,33 @@ pipeline {
           }
          }
       }
+
+      stage('Build Docker Image') {
+          steps {
+            script {
+                  ansiColor('xterm') {
+                      sh """
+                        BUILD_HOST="192.168.99.101:2376"
+                        docker -H tcp://${BUILD_HOST} build \
+                                -t cicd-demo:1.0 .
+                      """
+                  }
+             }
+          }
+      }
+
+      //stage('Deploy To K8s') {
+      //    steps {
+      //      script {
+      //            ansiColor('xterm') {
+      //                sh """
+      //                  kubectl
+      //                """
+      //            }
+      //       }
+      //    }
+      //}
+
    }
 
    post {

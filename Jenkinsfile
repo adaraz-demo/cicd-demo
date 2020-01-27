@@ -61,7 +61,7 @@ pipeline {
             script {
                   ansiColor('xterm') {
                       sh """
-                        docker -H tcp://192.168.99.101:2376 build \
+                        docker -H tcp://192.168.99.100:2376 build \
                                 -t cicd-demo:1.0 .
                       """
                   }
